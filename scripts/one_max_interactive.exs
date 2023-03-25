@@ -9,7 +9,13 @@ defmodule OneMax do
   end
 
   @impl true
-  def fitness_function(chromosome), do: Enum.sum(chromosome.genes)
+  def fitness_function(chromosome) do
+    IO.inspect(chromosome)
+    fit = IO.gets("Rate from 1 to 10: ")
+    fit
+    |> String.trim()
+    |> String.to_integer()
+  end
 
   @impl true
   def terminate?(_population, generation), do: generation == 1000
