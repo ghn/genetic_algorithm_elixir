@@ -6,7 +6,7 @@ defmodule Genetic do
     for _ <- 1..population_size, do: genotype.()
   end
 
-  def evaluate(population, fitness_function, opts \\ []) do
+  def evaluate(population, fitness_function, _opts \\ []) do
     population
     |> Enum.map(
       fn chromosome ->
@@ -18,13 +18,13 @@ defmodule Genetic do
     |> Enum.sort_by(& &1.fitness, &>=/2)
   end
 
-  def select(population, opts \\ []) do
+  def select(population, _opts \\ []) do
     population
     |> Enum.chunk_every(2)
     |> Enum.map(&List.to_tuple(&1))
   end
 
-  def crossover(population, opts \\ []) do
+  def crossover(population, _opts \\ []) do
     population
     |> Enum.reduce([],
       fn {p1, p2}, acc ->
@@ -46,7 +46,7 @@ defmodule Genetic do
     )
   end
 
-  def mutation(population, opts \\ []) do
+  def mutation(population, _opts \\ []) do
     population
     |> Enum.map(
       fn chromosome ->
@@ -62,22 +62,22 @@ defmodule Genetic do
   def run(problem, opts \\ []) do
     population = initialize(&problem.genotype/0)
     population
-    |> evolve(problem, opts)
+    |> evolve(problem, 0, opts)
   end
 
-  def evolve(population, problem, opts \\ []) do
+  def evolve(population, problem, generation, opts \\ []) do
     population = evaluate(population, &problem.fitness_function/1, opts)
     best = hd(population)
     current_best = best.fitness
     IO.write("\rCurrent best: #{current_best}")
-    if problem.terminate?(population) do
+    if problem.terminate?(population, generation) do
       best
     else
       population
       |> select(opts)
       |> crossover(opts)
       |> mutation(opts)
-      |> evolve(problem, opts)
+      |> evolve(problem, generation + 1, opts)
     end
   end
 end
