@@ -1,10 +1,21 @@
-genotype = fn -> for _ <- 1..1000, do: Enum.random([0, 1]) end
+defmodule OneMax do
+  @behaviour Problem
+  alias Types.Chromosome
 
-fitness_function = fn chromosome -> Enum.sum(chromosome) end
+  @impl True
+  def genotype do
+    genes = for _ <- 1..42, do: Enum.random(0..1)
+    %Chromosome{genes: genes, size: 42}
+  end
 
-max_fitness = 1000
+  @impl True
+  def fitness_function(chromosome), do: Enum.sum(chromosome.genes)
 
-soln = Genetic.run(fitness_function, genotype, max_fitness)
+  @impl True
+  def terminate?([best | _]), do: best.fitness == 42
+end
+
+soln = Genetic.run(OneMax)
 
 IO.write("\n")
 IO.inspect(soln)

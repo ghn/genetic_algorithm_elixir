@@ -4,6 +4,7 @@
 
 ```elixir
 mix run scripts/one_max.exs
+mix run scripts/speller.exs
 ```
 
 ## Installation
