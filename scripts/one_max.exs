@@ -15,7 +15,7 @@ defmodule OneMax do
   def terminate?(_population, generation), do: generation == 1000
 end
 
-soln = Genetic.run(OneMax)
+soln = Genetic.run(OneMax, selection_type: &Toolbox.Selection.elite/2)
 
 IO.write("\n")
 IO.inspect(soln)
