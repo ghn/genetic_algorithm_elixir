@@ -6,6 +6,7 @@ Source code of the book [Genetic Algorithm in Elixir](https://pragprog.com/title
 
 ```elixir
 mix run scripts/cargo.exs
+mix run scripts/n_queens.exs
 mix run scripts/one_max.exs
 mix run scripts/portfolio.exs
 mix run scripts/speller.exs
