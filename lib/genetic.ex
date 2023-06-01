@@ -82,7 +82,7 @@ defmodule Genetic do
       {parents, leftover} = select(population, opts)
       children = crossover(parents, opts)
       children ++ leftover
-      |> mutation(opts)
+      # |> mutation(opts)
       |> evolve(problem, generation + 1, opts)
     end
   end
