@@ -32,7 +32,7 @@ defmodule NQueens do
   end
 end
 
-soln = Genetic.run(NQueens)
+soln = Genetic.run(NQueens, crossover_type: &Toolbox.Crossover.order_one/2)
 
 IO.write("\n")
 IO.inspect(soln)
