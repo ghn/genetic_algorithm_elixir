@@ -26,14 +26,8 @@ defmodule Toolbox.Crossover do
     {c1, c2} = {head1 ++ slice1 ++ tail1, head2 ++ slice2 ++ tail2}
 
     {
-      %Chromosome{
-        genes: c1,
-        size: p1.size
-      },
-      %Chromosome{
-        genes: c2,
-        size: p2.size
-      }
+      %Chromosome{p1 | genes: c1},
+      %Chromosome{p2 | genes: c2}
     }
   end
 
@@ -50,5 +44,24 @@ defmodule Toolbox.Crossover do
         %Chromosome{p1 | genes: h1 ++ t2},
         %Chromosome{p2 | genes: h2 ++ t1}
       }
+  end
+
+  def uniform(p1, p2, rate \\ 0.5) do
+    {c1, c2} =
+      p1.genes
+      |> Enum.zip(p2.genes)
+      |> Enum.map(fn {x, y} ->
+        if :rand.uniform() < rate do
+          {x, y}
+        else
+          {y, x}
+        end
+      end)
+      |> Enum.unzip
+
+    {
+      %Chromosome{p1 | genes: c1},
+      %Chromosome{p2 | genes: c2}
+    }
   end
 end
